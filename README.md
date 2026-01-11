@@ -1,50 +1,295 @@
-# Welcome to your Expo app 👋
+# Event Timeline - Local-First Event System
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+> A production-grade, offline-first event timeline built with React Native and Expo. Focused on performance, complex animations, and native module integration.
 
-## Get started
+## 🎯 Project Purpose
 
-1. Install dependencies
+This project demonstrates advanced React Native engineering capabilities:
 
-   ```bash
-   npm install
-   ```
+- **Local-first architecture** with offline persistence
+- **High-performance** timeline rendering (10k+ events)
+- **Complex animations** with Reanimated 3
+- **Native module development** with Expo Modules API
+- **Sync engine** with conflict resolution
+- **Performance optimization** and profiling
 
-2. Start the app
+Built to showcase production-level system design, not as a business application.
 
-   ```bash
-   npx expo start
-   ```
+## 🏗️ Architecture
 
-In the output, you'll find options to open the app in a
-
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
-
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
-
-## Get a fresh project
-
-When you're ready, run:
-
-```bash
-npm run reset-project
+```
+┌─────────────────────────────────────┐
+│           UI Layer                  │
+│  ├─ Timeline (Reanimated)          │
+│  ├─ Filters / Grouping             │
+│  └─ Gestures                       │
+├─────────────────────────────────────┤
+│         Domain Layer                │
+│  ├─ Event Model                    │
+│  ├─ Event Store                    │
+│  └─ Business Logic                 │
+├─────────────────────────────────────┤
+│      Infrastructure Layer           │
+│  ├─ Local DB (SQLite/Watermelon)  │
+│  ├─ Sync Engine                    │
+│  └─ Native Module (EventBatch)     │
+└─────────────────────────────────────┘
 ```
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+## 📊 Event Types
 
-## Learn more
+### Domain Events
 
-To learn more about developing your project with Expo, look at the following resources:
+- `ITEM_CREATED` - New item created
+- `ITEM_UPDATED` - Item modified
+- `ITEM_DELETED` - Item removed
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+### Sync Events
 
-## Join the community
+- `SYNC_STARTED` - Sync process initiated
+- `SYNC_SUCCESS` - Sync completed successfully
+- `SYNC_FAILED` - Sync failed with error
+- `CONFLICT_DETECTED` - Data conflict found
+- `CONFLICT_RESOLVED` - Conflict resolution applied
 
-Join our community of developers creating universal apps.
+### System Events
 
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+- `APP_BACKGROUND` - App entered background
+- `APP_FOREGROUND` - App returned to foreground
+- `NETWORK_ONLINE` - Network connectivity restored
+- `NETWORK_OFFLINE` - Network connectivity lost
+
+## 🔥 Core Features
+
+### Local-First
+
+- **Zero network dependency** for core functionality
+- All events persist locally immediately
+- Background synchronization when network available
+- Optimistic UI updates
+
+### Performance
+
+- Handles 10,000+ events without frame drops
+- Virtualized lists with FlashList/RecyclerListView
+- Memoization and render optimization
+- Native batch writing for high-throughput scenarios
+
+### Animations
+
+- Smooth insertion animations (Reanimated 3)
+- Collapsible day groupings
+- Animated sticky headers
+- Scroll-linked animations
+- Gesture-driven interactions (swipe, long-press)
+
+### Native Module
+
+**EventBatchWriter** (Swift/Kotlin via Expo Modules)
+
+- High-performance batch event persistence
+- Background thread execution
+- Efficient disk I/O
+- JS ↔ Native bridging optimization
+
+## 🛠️ Technical Stack
+
+- **Framework**: React Native 0.81 + Expo 54
+- **Language**: TypeScript 5.9
+- **Animation**: Reanimated 4.1
+- **Gestures**: React Native Gesture Handler 2.28
+- **Database**: SQLite / WatermelonDB (TBD)
+- **Native**: Expo Modules API
+- **State**: Context + Hooks (local-first, minimal global state)
+
+## 📱 Event Schema
+
+```typescript
+interface Event {
+  id: string;
+  type: EventType;
+  payload: Record<string, any>;
+  timestamp: number;
+  status: "pending" | "synced" | "failed";
+  createdAt: number;
+  syncedAt?: number;
+  error?: string;
+}
+```
+
+## 🚀 Local-First Flow
+
+```
+1. Event occurs → 2. Save locally → 3. Render immediately
+                                    ↓
+4. Mark as 'pending' → 5. Background sync → 6. Update status
+                                              ('synced'/'failed')
+```
+
+## 🎨 UI Features
+
+- **Timeline View**: Chronological event list with smooth scrolling
+- **Day Grouping**: Collapsible sections by date
+- **Filters**: Filter by event type, status, date range
+- **Search**: Real-time search across events
+- **Details**: Event detail view with metadata
+- **Sync Status**: Visual indicators for sync state
+
+## 📦 Project Structure
+
+```
+/app                    # Expo Router screens
+/src
+  /domain              # Business logic & models
+    /models            # Event types & schemas
+    /store             # Event store (repository pattern)
+  /infrastructure
+    /db                # Database layer
+    /sync              # Sync engine
+    /native            # Native module interfaces
+  /ui
+    /components        # Reusable components
+    /screens           # Screen components
+    /animations        # Reanimated worklets
+  /utils               # Helpers & utilities
+/modules
+  /event-batch-writer  # Expo native module
+    /ios               # Swift implementation
+    /android           # Kotlin implementation
+```
+
+## 🏁 Development Roadmap
+
+### Weeks 1-2: Foundation
+
+- [x] Project setup
+- [x] Data models & types
+- [ ] Local DB setup
+- [ ] CRUD operations
+
+### Weeks 3-4: UI Layer
+
+- [ ] Timeline component
+- [ ] Day grouping
+- [ ] List virtualization
+- [ ] Basic animations
+
+### Weeks 5-6: Sync Engine
+
+- [ ] Sync state machine
+- [ ] Network detection
+- [ ] Retry logic
+- [ ] Error handling
+
+### Weeks 7-8: Native Module
+
+- [ ] Expo module scaffold
+- [ ] Swift/Kotlin implementation
+- [ ] Batch writing
+- [ ] Background execution
+
+### Weeks 9-10: Animations
+
+- [ ] Complex Reanimated animations
+- [ ] Gesture handlers
+- [ ] Scroll interactions
+- [ ] Performance tuning
+
+### Weeks 11-12: Polish
+
+- [ ] Performance profiling
+- [ ] 10k event testing
+- [ ] Documentation
+- [ ] Technical writeup
+
+## 🧪 Performance Targets
+
+- **FPS**: Maintain 60 FPS with 10,000+ events
+- **Render Time**: < 16ms per frame
+- **DB Operations**: < 100ms for batch inserts
+- **Memory**: < 150MB for 10k events
+- **Cold Start**: < 2s to interactive
+
+## 📖 Getting Started
+
+```bash
+# Install dependencies
+bun install
+
+# Start development server
+bun start
+
+# iOS
+bun ios
+
+# Android
+bun android
+
+# Run with dev client
+bun run:dev
+```
+
+## 🧰 Development Commands
+
+```bash
+# Lint
+bun lint
+
+# Type check
+bun tsc
+
+# Build native modules
+bun prebuild
+
+# Clean
+bun clean
+```
+
+## 🔍 Key Decisions & Trade-offs
+
+### Local-First vs Cloud-First
+
+**Decision**: Local-first  
+**Rationale**: Demonstrates offline capabilities, sync complexity, and native performance optimization
+
+### Database Choice
+
+**Options**: SQLite (raw), WatermelonDB, Realm  
+**Decision**: TBD based on benchmarks  
+**Criteria**: Performance, Expo compatibility, learning value
+
+### Native Module Scope
+
+**Decision**: EventBatchWriter only  
+**Rationale**: Focused, defensible, demonstrates real native optimization need
+
+### Animation Library
+
+**Decision**: Reanimated 3  
+**Rationale**: Industry standard, UI thread performance, Callstack's library
+
+## 📝 Technical Writing
+
+This project includes:
+
+- Architecture decision records (ADRs)
+- Performance profiling reports
+- API design documentation
+- Interview preparation notes
+- Technical blog post draft
+
+## 🎯 Interview Talking Points
+
+> "I built a local-first event system to explore React Native's performance boundaries. It handles 10k+ events with complex animations, uses a custom native module for batch persistence, and implements a sync engine with conflict resolution. I profiled every layer, optimized renders, and measured real FPS metrics."
+
+## 🤝 Contributing
+
+This is a personal learning project. Not accepting contributions, but feel free to fork and adapt for your own learning.
+
+## 📄 License
+
+MIT
+
+---
+
+**Built with**: React Native, Expo, TypeScript, Reanimated, and determination.
