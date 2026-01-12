@@ -164,8 +164,8 @@ interface Event {
 
 - [x] Project setup
 - [x] Data models & types
-- [ ] Local DB setup
-- [ ] CRUD operations
+- [x] Local DB setup
+- [x] CRUD operations
 
 ### Weeks 3-4: UI Layer
 
