@@ -1,6 +1,6 @@
 # Event Timeline - Local-First Event System
 
-> A production-grade, offline-first event timeline built with React Native and Expo. Focused on performance, complex animations, and native module integration.
+> A production-grade, offline-first event timeline built with React Native and Expo. Focused on performance and complex animations.
 
 ## 🎯 Project Purpose
 
@@ -9,7 +9,6 @@ This project demonstrates advanced React Native engineering capabilities:
 - **Local-first architecture** with offline persistence
 - **High-performance** timeline rendering (10k+ events)
 - **Complex animations** with Reanimated 3
-- **Native module development** with Expo Modules API
 - **Sync engine** with conflict resolution
 - **Performance optimization** and profiling
 
@@ -30,9 +29,9 @@ Built to showcase production-level system design, not as a business application.
 │  └─ Business Logic                 │
 ├─────────────────────────────────────┤
 │      Infrastructure Layer           │
-│  ├─ Local DB (SQLite/Watermelon)  │
+│  ├─ Local DB (WatermelonDB)       │
 │  ├─ Sync Engine                    │
-│  └─ Native Module (EventBatch)     │
+│  └─ Event Tracking                 │
 └─────────────────────────────────────┘
 ```
 
@@ -71,9 +70,10 @@ Built to showcase production-level system design, not as a business application.
 ### Performance
 
 - Handles 10,000+ events without frame drops
-- Virtualized lists with FlashList/RecyclerListView
+- Virtualized lists with FlashList
 - Memoization and render optimization
-- Native batch writing for high-throughput scenarios
+- WatermelonDB with JSI for native performance
+  Optimized database queries and batch operations
 
 ### Animations
 
@@ -83,24 +83,14 @@ Built to showcase production-level system design, not as a business application.
 - Scroll-linked animations
 - Gesture-driven interactions (swipe, long-press)
 
-### Native Module
-
-**EventBatchWriter** (Swift/Kotlin via Expo Modules)
-
-- High-performance batch event persistence
-- Background thread execution
-- Efficient disk I/O
-- JS ↔ Native bridging optimization
-
 ## 🛠️ Technical Stack
 
 - **Framework**: React Native 0.81 + Expo 54
 - **Language**: TypeScript 5.9
 - **Animation**: Reanimated 4.1
 - **Gestures**: React Native Gesture Handler 2.28
-- **Database**: SQLite / WatermelonDB (TBD)
-- **Native**: Expo Modules API
-- **State**: Context + Hooks (local-first, minimal global state)
+- **Database**: WatermelonDB (JSI-powered SQLite)
+- **Architecture**: New Arch
 
 ## 📱 Event Schema
 
@@ -144,18 +134,14 @@ interface Event {
     /models            # Event types & schemas
     /store             # Event store (repository pattern)
   /infrastructure
-    /db                # Database layer
+    /db                # WatermelonDB layer
     /sync              # Sync engine
-    /native            # Native module interfaces
+    /tracking          # Event tracking services
   /ui
     /components        # Reusable components
     /screens           # Screen components
-    /animations        # Reanimated worklets
-  /utils               # Helpers & utilities
-/modules
-  /event-batch-writer  # Expo native module
-    /ios               # Swift implementation
-    /android           # Kotlin implementation
+    /hooks             # Custom hooks
+    /theme             # Theme & styling
 ```
 
 ## 🏁 Development Roadmap
@@ -181,21 +167,14 @@ interface Event {
 - [ ] Retry logic
 - [ ] Error handling
 
-### Weeks 7-8: Native Module
-
-- [ ] Expo module scaffold
-- [ ] Swift/Kotlin implementation
-- [ ] Batch writing
-- [ ] Background execution
-
-### Weeks 9-10: Animations
+### Weeks 7-8: Advanced Animations
 
 - [ ] Complex Reanimated animations
 - [ ] Gesture handlers
 - [ ] Scroll interactions
 - [ ] Performance tuning
 
-### Weeks 11-12: Polish
+### Weeks 9-10: Polish
 
 - [ ] Performance profiling
 - [ ] 10k event testing
@@ -250,25 +229,19 @@ bun clean
 ### Local-First vs Cloud-First
 
 **Decision**: Local-first  
-**Rationale**: Demonstrates offline capabilities, sync complexity, and native performance optimization
+**Rationale**: Demonstrates offline capabilities, sync complexity, and performance optimization with New Architecture
 
 ### Database Choice
 
-**Options**: SQLite (raw), WatermelonDB, Realm  
-**Decision**: TBD based on benchmarks  
-**Criteria**: Performance, Expo compatibility, learning value
+### Database Choice
 
-### Native Module Scope
-
-**Decision**: EventBatchWriter only  
-**Rationale**: Focused, defensible, demonstrates real native optimization need
+**Decision**: WatermelonDB  
+**Rationale**: Reactive queries, optimized for React Native, excellent performance with complex datasets
 
 ### Animation Library
 
 **Decision**: Reanimated 3  
-**Rationale**: Industry standard, UI thread performance, Callstack's library
-
-## 📝 Technical Writing
+**Rationale**: Industry standard, runs on UI thread for smooth 60fps animations
 
 This project includes:
 
@@ -280,7 +253,8 @@ This project includes:
 
 ## 🎯 Interview Talking Points
 
-> "I built a local-first event system to explore React Native's performance boundaries. It handles 10k+ events with complex animations, uses a custom native module for batch persistence, and implements a sync engine with conflict resolution. I profiled every layer, optimized renders, and measured real FPS metrics."
+> "I built a local-first event system to explore React Native's New Architecture performance. It handles 10k+ events with complex animations using JSI and Fabric. The app uses WatermelonDB for reactive, performant data persistence, implements auto-tracking of system events, and features a custom sync engine with conflict resolution. I profiled every layer, optimized renders with Reanimated 3, and achieved 60fps with thousands of events."
+> performance boundaries. It handles 10k+ events with complex animations, uses WatermelonDB for reactive data persistence, implements auto-tracking of system events, and features a sync engine with conflict resolution. I profiled every layer, optimized renders with Reanimated 3, and achieved consistent 60fps performance
 
 ## 🤝 Contributing
 
