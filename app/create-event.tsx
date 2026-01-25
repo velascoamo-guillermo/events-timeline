@@ -359,12 +359,8 @@ export default function CreateEventScreen() {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-  scrollView: {
-    flex: 1,
-  },
+  container: {},
+  scrollView: {},
   content: {
     padding: 16,
   },

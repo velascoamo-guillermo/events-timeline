@@ -10,6 +10,7 @@ import { Ionicons } from "@expo/vector-icons";
 import { GlassView } from "expo-glass-effect";
 import { router } from "expo-router";
 import { Pressable, StyleSheet, Text, View } from "react-native";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 interface QuickAction {
   label: string;
@@ -49,6 +50,7 @@ export default function AddEventScreen() {
   const { colors } = useTheme();
   const { createQuickEvent } = useCreateEvent();
   const { refresh } = useTimelineEvents();
+  const safeArea = useSafeAreaInsets();
 
   const handleQuickAction = async (
     type: DomainEventType | SyncEventType | SystemEventType,
@@ -79,7 +81,10 @@ export default function AddEventScreen() {
             onPress={() => handleQuickAction(action.type)}
           >
             <GlassView
-              style={styles.quickActionButton}
+              style={[
+                styles.quickActionButton,
+                { backgroundColor: colors.cardBackground },
+              ]}
               glassEffectStyle="regular"
               isInteractive
             >
@@ -123,7 +128,6 @@ export default function AddEventScreen() {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
     padding: 20,
   },
   menuTitle: {

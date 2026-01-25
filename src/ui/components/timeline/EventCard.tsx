@@ -1,26 +1,26 @@
-import { View, Text, StyleSheet, Pressable } from 'react-native';
-import { GlassView } from 'expo-glass-effect';
 import {
-  Event,
-  EventType,
-  DomainEventType,
-  SyncEventType,
-  SystemEventType,
-  ItemCreatedPayload,
-  ItemUpdatedPayload,
-  ItemDeletedPayload,
-  SyncStartedPayload,
-  SyncSuccessPayload,
-  SyncFailedPayload,
+  AppForegroundPayload,
   ConflictDetectedPayload,
   ConflictResolvedPayload,
-  AppForegroundPayload,
+  DomainEventType,
+  Event,
+  EventType,
+  ItemCreatedPayload,
+  ItemDeletedPayload,
+  ItemUpdatedPayload,
   NetworkOnlinePayload,
-} from '@/src/domain/models/Event';
-import { useTheme } from '@/src/ui/hooks/useTheme';
-import { formatTime } from '@/src/ui/utils/dateFormatters';
-import { EventTypeIcon } from './EventTypeIcon';
-import { SyncStatusIndicator } from './SyncStatusIndicator';
+  SyncEventType,
+  SyncFailedPayload,
+  SyncStartedPayload,
+  SyncSuccessPayload,
+  SystemEventType,
+} from "@/src/domain/models/Event";
+import { useTheme } from "@/src/ui/hooks/useTheme";
+import { formatTime } from "@/src/ui/utils/dateFormatters";
+import { GlassView } from "expo-glass-effect";
+import { Pressable, StyleSheet, Text, View } from "react-native";
+import { EventTypeIcon } from "./EventTypeIcon";
+import { SyncStatusIndicator } from "./SyncStatusIndicator";
 
 interface EventCardProps {
   event: Event;
@@ -29,7 +29,7 @@ interface EventCardProps {
 
 function formatEventType(type: EventType): string {
   return type
-    .replace(/_/g, ' ')
+    .replace(/_/g, " ")
     .toLowerCase()
     .replace(/\b\w/g, (c) => c.toUpperCase());
 }
@@ -41,12 +41,12 @@ function getEventDescription(event: Event): string {
     // Domain events
     case DomainEventType.ITEM_CREATED: {
       const p = payload as ItemCreatedPayload;
-      return `Created item: ${p.item?.title ?? 'Unknown'}`;
+      return `Created item: ${p.item?.title ?? "Unknown"}`;
     }
     case DomainEventType.ITEM_UPDATED: {
       const p = payload as ItemUpdatedPayload;
-      const changedFields = p.changes ? Object.keys(p.changes).join(', ') : '';
-      return `Updated item ${p.itemId}${changedFields ? `: ${changedFields}` : ''}`;
+      const changedFields = p.changes ? Object.keys(p.changes).join(", ") : "";
+      return `Updated item ${p.itemId}${changedFields ? `: ${changedFields}` : ""}`;
     }
     case DomainEventType.ITEM_DELETED: {
       const p = payload as ItemDeletedPayload;
@@ -56,11 +56,11 @@ function getEventDescription(event: Event): string {
     // Sync events
     case SyncEventType.SYNC_STARTED: {
       const p = payload as SyncStartedPayload;
-      return `Sync started with ${p.batchSize} item${p.batchSize !== 1 ? 's' : ''}`;
+      return `Sync started with ${p.batchSize} item${p.batchSize !== 1 ? "s" : ""}`;
     }
     case SyncEventType.SYNC_SUCCESS: {
       const p = payload as SyncSuccessPayload;
-      return `Synced ${p.syncedCount} item${p.syncedCount !== 1 ? 's' : ''} in ${p.duration}ms`;
+      return `Synced ${p.syncedCount} item${p.syncedCount !== 1 ? "s" : ""} in ${p.duration}ms`;
     }
     case SyncEventType.SYNC_FAILED: {
       const p = payload as SyncFailedPayload;
@@ -77,20 +77,20 @@ function getEventDescription(event: Event): string {
 
     // System events
     case SystemEventType.APP_BACKGROUND:
-      return 'App moved to background';
+      return "App moved to background";
     case SystemEventType.APP_FOREGROUND: {
       const p = payload as AppForegroundPayload;
       const duration = p.backgroundDuration
         ? ` after ${Math.round(p.backgroundDuration / 1000)}s`
-        : '';
+        : "";
       return `App resumed${duration}`;
     }
     case SystemEventType.NETWORK_ONLINE: {
       const p = payload as NetworkOnlinePayload;
-      return `Network connected${p.connectionType ? ` (${p.connectionType})` : ''}`;
+      return `Network connected${p.connectionType ? ` (${p.connectionType})` : ""}`;
     }
     case SystemEventType.NETWORK_OFFLINE:
-      return 'Network disconnected';
+      return "Network disconnected";
 
     default:
       return formatEventType(type);
@@ -108,10 +108,13 @@ export function EventCard({ event, onPress }: EventCardProps) {
     <Pressable
       onPress={handlePress}
       disabled={!onPress}
-      style={({ pressed }) => [pressed && styles.cardPressed]}
+      style={({ pressed }) => [
+        pressed &&
+          styles.cardPressed && { backgroundColor: colors.cardBackground },
+      ]}
     >
       <GlassView
-        style={styles.card}
+        style={[styles.card, { backgroundColor: colors.cardBackground }]}
         glassEffectStyle="regular"
         isInteractive
       >
@@ -145,14 +148,14 @@ const styles = StyleSheet.create({
     padding: 16,
     marginHorizontal: 16,
     marginVertical: 6,
-    overflow: 'hidden',
+    overflow: "hidden",
   },
   cardPressed: {
     opacity: 0.9,
   },
   header: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
   },
   headerContent: {
     flex: 1,
@@ -160,7 +163,7 @@ const styles = StyleSheet.create({
   },
   eventType: {
     fontSize: 14,
-    fontWeight: '600',
+    fontWeight: "600",
   },
   timestamp: {
     fontSize: 12,

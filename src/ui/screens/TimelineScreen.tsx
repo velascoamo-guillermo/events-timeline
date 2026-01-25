@@ -1,11 +1,11 @@
-import { View, Text, StyleSheet, ActivityIndicator } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
-import { useTheme } from '@/src/ui/hooks/useTheme';
-import { TimelineList } from '@/src/ui/components/timeline/TimelineList';
-import { EmptyState } from '@/src/ui/components/timeline/EmptyState';
-import { FloatingActionButton } from '@/src/ui/components/timeline/FloatingActionButton';
-import { useTimelineEvents } from '@/src/ui/hooks/useTimelineEvents';
-import { useEventTracker } from '@/src/ui/hooks/useEventTracker';
+import { EmptyState } from "@/src/ui/components/timeline/EmptyState";
+import { FloatingActionButton } from "@/src/ui/components/timeline/FloatingActionButton";
+import { TimelineList } from "@/src/ui/components/timeline/TimelineList";
+import { useEventTracker } from "@/src/ui/hooks/useEventTracker";
+import { useTheme } from "@/src/ui/hooks/useTheme";
+import { useTimelineEvents } from "@/src/ui/hooks/useTimelineEvents";
+import { ActivityIndicator, StyleSheet, Text, View } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 export function TimelineScreen() {
   const { colors } = useTheme();
@@ -20,7 +20,7 @@ export function TimelineScreen() {
     return (
       <SafeAreaView
         style={[styles.container, { backgroundColor: colors.background }]}
-        edges={['bottom']}
+        edges={[]}
       >
         <View style={styles.centerContainer}>
           <ActivityIndicator size="large" color={colors.indicator} />
@@ -34,7 +34,7 @@ export function TimelineScreen() {
     return (
       <SafeAreaView
         style={[styles.container, { backgroundColor: colors.background }]}
-        edges={['bottom']}
+        edges={[]}
       >
         <View style={styles.centerContainer}>
           <Text style={[styles.errorText, { color: colors.syncStatus.failed }]}>
@@ -50,7 +50,7 @@ export function TimelineScreen() {
     return (
       <SafeAreaView
         style={[styles.container, { backgroundColor: colors.background }]}
-        edges={['bottom']}
+        edges={[]}
       >
         <EmptyState />
         {renderFAB()}
@@ -61,7 +61,7 @@ export function TimelineScreen() {
   return (
     <SafeAreaView
       style={[styles.container, { backgroundColor: colors.background }]}
-      edges={['bottom']}
+      edges={[]}
     >
       <TimelineList
         sections={sections}
@@ -79,12 +79,12 @@ const styles = StyleSheet.create({
   },
   centerContainer: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
   },
   errorText: {
     fontSize: 16,
-    textAlign: 'center',
+    textAlign: "center",
     paddingHorizontal: 32,
   },
 });
