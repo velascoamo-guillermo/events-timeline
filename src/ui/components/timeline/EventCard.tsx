@@ -1,4 +1,5 @@
 import { View, Text, StyleSheet, Pressable } from 'react-native';
+import { GlassView } from 'expo-glass-effect';
 import {
   Event,
   EventType,
@@ -105,50 +106,46 @@ export function EventCard({ event, onPress }: EventCardProps) {
 
   return (
     <Pressable
-      style={({ pressed }) => [
-        styles.card,
-        {
-          backgroundColor: colors.cardBackground,
-          shadowColor: colors.shadow,
-        },
-        pressed && styles.cardPressed,
-      ]}
       onPress={handlePress}
       disabled={!onPress}
+      style={({ pressed }) => [pressed && styles.cardPressed]}
     >
-      <View style={styles.header}>
-        <EventTypeIcon type={event.type} />
-        <View style={styles.headerContent}>
-          <Text style={[styles.eventType, { color: colors.text.primary }]}>
-            {formatEventType(event.type)}
-          </Text>
-          <Text style={[styles.timestamp, { color: colors.text.secondary }]}>
-            {formatTime(event.timestamp)}
-          </Text>
-        </View>
-        <SyncStatusIndicator status={event.status} />
-      </View>
-      <View style={[styles.divider, { backgroundColor: colors.divider }]} />
-      <Text
-        style={[styles.description, { color: colors.text.secondary }]}
-        numberOfLines={2}
+      <GlassView
+        style={styles.card}
+        glassEffectStyle="regular"
+        isInteractive
       >
-        {getEventDescription(event)}
-      </Text>
+        <View style={styles.header}>
+          <EventTypeIcon type={event.type} />
+          <View style={styles.headerContent}>
+            <Text style={[styles.eventType, { color: colors.text.primary }]}>
+              {formatEventType(event.type)}
+            </Text>
+            <Text style={[styles.timestamp, { color: colors.text.secondary }]}>
+              {formatTime(event.timestamp)}
+            </Text>
+          </View>
+          <SyncStatusIndicator status={event.status} />
+        </View>
+        <View style={[styles.divider, { backgroundColor: colors.divider }]} />
+        <Text
+          style={[styles.description, { color: colors.text.secondary }]}
+          numberOfLines={2}
+        >
+          {getEventDescription(event)}
+        </Text>
+      </GlassView>
     </Pressable>
   );
 }
 
 const styles = StyleSheet.create({
   card: {
-    borderRadius: 12,
+    borderRadius: 20,
     padding: 16,
     marginHorizontal: 16,
     marginVertical: 6,
-    shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 0.1,
-    shadowRadius: 3,
-    elevation: 2,
+    overflow: 'hidden',
   },
   cardPressed: {
     opacity: 0.9,

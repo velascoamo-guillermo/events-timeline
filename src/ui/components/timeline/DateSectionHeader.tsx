@@ -1,5 +1,5 @@
-import { View, Text, StyleSheet } from 'react-native';
-import { useTheme } from '@/src/ui/hooks/useTheme';
+import { useTheme } from "@/src/ui/hooks/useTheme";
+import { StyleSheet, Text, View } from "react-native";
 
 interface DateSectionHeaderProps {
   title: string;
@@ -11,15 +11,17 @@ export function DateSectionHeader({ title }: DateSectionHeaderProps) {
   return (
     <View style={[styles.container, { backgroundColor: colors.background }]}>
       <View style={[styles.indicator, { backgroundColor: colors.indicator }]} />
-      <Text style={[styles.title, { color: colors.text.primary }]}>{title}</Text>
+      <Text style={[styles.title, { color: colors.text.primary }]}>
+        {title}
+      </Text>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
     paddingHorizontal: 16,
     paddingVertical: 12,
   },
@@ -31,6 +33,6 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 16,
-    fontWeight: '700',
+    fontWeight: "700",
   },
 });
