@@ -144,43 +144,6 @@ interface Event {
     /theme             # Theme & styling
 ```
 
-## 🏁 Development Roadmap
-
-### Weeks 1-2: Foundation
-
-- [x] Project setup
-- [x] Data models & types
-- [x] Local DB setup
-- [x] CRUD operations
-
-### Weeks 3-4: UI Layer
-
-- [ ] Timeline component
-- [ ] Day grouping
-- [ ] List virtualization
-- [ ] Basic animations
-
-### Weeks 5-6: Sync Engine
-
-- [ ] Sync state machine
-- [ ] Network detection
-- [ ] Retry logic
-- [ ] Error handling
-
-### Weeks 7-8: Advanced Animations
-
-- [ ] Complex Reanimated animations
-- [ ] Gesture handlers
-- [ ] Scroll interactions
-- [ ] Performance tuning
-
-### Weeks 9-10: Polish
-
-- [ ] Performance profiling
-- [ ] 10k event testing
-- [ ] Documentation
-- [ ] Technical writeup
-
 ## 🧪 Performance Targets
 
 - **FPS**: Maintain 60 FPS with 10,000+ events
@@ -233,9 +196,7 @@ bun clean
 
 ### Database Choice
 
-### Database Choice
-
-**Decision**: WatermelonDB  
+**Decision**: WatermelonDB
 **Rationale**: Reactive queries, optimized for React Native, excellent performance with complex datasets
 
 ### Animation Library
@@ -253,8 +214,7 @@ This project includes:
 
 ## 🎯 Interview Talking Points
 
-> "I built a local-first event system to explore React Native's New Architecture performance. It handles 10k+ events with complex animations using JSI and Fabric. The app uses WatermelonDB for reactive, performant data persistence, implements auto-tracking of system events, and features a custom sync engine with conflict resolution. I profiled every layer, optimized renders with Reanimated 3, and achieved 60fps with thousands of events."
-> performance boundaries. It handles 10k+ events with complex animations, uses WatermelonDB for reactive data persistence, implements auto-tracking of system events, and features a sync engine with conflict resolution. I profiled every layer, optimized renders with Reanimated 3, and achieved consistent 60fps performance
+> "I built a local-first event system to explore React Native's New Architecture performance. It handles 10k+ events with complex animations using JSI and Fabric. The app uses WatermelonDB for reactive, performant data persistence, implements auto-tracking of system events, and features a custom sync engine with Supabase and conflict resolution. I profiled every layer, optimized renders with Reanimated 3, and achieved 60fps with thousands of events."
 
 ## 🤝 Contributing
 
