@@ -1,4 +1,5 @@
 import { Q } from "@nozbe/watermelondb";
+import * as Crypto from "expo-crypto";
 import type {
   CreateEventInput,
   Event,
@@ -19,15 +20,16 @@ export class WatermelonEventStore implements IEventStore {
 
   async createEvent(input: CreateEventInput): Promise<Event> {
     const event = await database.write(async () => {
-      return await database.collections
-        .get<EventModel>("events")
-        .create((record) => {
-          record.type = input.type;
-          record.payloadRaw = JSON.stringify(input.payload);
-          record.timestamp = input.timestamp || Date.now();
-          record.status = SyncStatusEnum.PENDING;
-          record.deviceId = input.deviceId;
-        });
+      const collection = database.collections.get<EventModel>("events");
+      return await collection.create((record) => {
+        // Use UUID for Supabase compatibility
+        record._raw.id = Crypto.randomUUID();
+        record.type = input.type;
+        record.payloadRaw = JSON.stringify(input.payload);
+        record.timestamp = input.timestamp || Date.now();
+        record.status = SyncStatusEnum.PENDING;
+        record.deviceId = input.deviceId;
+      });
     });
 
     return this.mapToEvent(event);
@@ -39,6 +41,7 @@ export class WatermelonEventStore implements IEventStore {
       return await Promise.all(
         inputs.map((input) =>
           collection.create((record) => {
+            record._raw.id = Crypto.randomUUID();
             record.type = input.type;
             record.payloadRaw = JSON.stringify(input.payload);
             record.timestamp = input.timestamp || Date.now();

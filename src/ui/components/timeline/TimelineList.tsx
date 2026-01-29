@@ -22,6 +22,7 @@ interface TimelineListProps {
   onRefresh: () => Promise<void>;
   isRefreshing: boolean;
   onEventPress?: (event: Event) => void;
+  ListHeaderComponent?: React.ReactElement | null;
 }
 
 export function TimelineList({
@@ -29,6 +30,7 @@ export function TimelineList({
   onRefresh,
   isRefreshing,
   onEventPress,
+  ListHeaderComponent,
 }: TimelineListProps) {
   const { colors } = useTheme();
 
@@ -65,6 +67,7 @@ export function TimelineList({
       }
       contentContainerStyle={styles.contentContainer}
       showsVerticalScrollIndicator={false}
+      ListHeaderComponent={ListHeaderComponent}
       ListFooterComponent={
         isRefreshing ? (
           <View style={styles.footer}>

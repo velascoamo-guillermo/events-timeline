@@ -3,6 +3,8 @@ import NetInfo, { NetInfoState } from '@react-native-community/netinfo';
 import { SystemEventType } from '@/src/domain/models/Event';
 import { WatermelonEventStore } from '@/src/infrastructure/db/WatermelonEventStore';
 
+type NetworkStateCallback = (isConnected: boolean) => void;
+
 class EventTrackerService {
   private eventStore: WatermelonEventStore;
   private isTracking = false;
@@ -11,9 +13,23 @@ class EventTrackerService {
   private lastAppState: AppStateStatus = 'active';
   private backgroundTimestamp: number | null = null;
   private lastNetworkState: boolean | null = null;
+  private networkStateCallbacks: Set<NetworkStateCallback> = new Set();
 
   constructor() {
     this.eventStore = new WatermelonEventStore();
+  }
+
+  isOnline(): boolean {
+    return this.lastNetworkState ?? false;
+  }
+
+  onNetworkStateChange(callback: NetworkStateCallback): () => void {
+    this.networkStateCallbacks.add(callback);
+    // Immediately call with current state if known
+    if (this.lastNetworkState !== null) {
+      callback(this.lastNetworkState);
+    }
+    return () => this.networkStateCallbacks.delete(callback);
   }
 
   startTracking() {
@@ -94,6 +110,9 @@ class EventTrackerService {
     }
 
     if (isConnected === this.lastNetworkState) return;
+
+    // Notify all network state subscribers
+    this.networkStateCallbacks.forEach((callback) => callback(isConnected ?? false));
 
     if (isConnected) {
       // Network came online
