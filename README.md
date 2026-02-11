@@ -2,6 +2,8 @@
 
 > Offline-first event timeline app built with React Native and Expo. Tracks domain, sync, and system events with automatic background synchronization to Supabase.
 
+<video src="https://github.com/user-attachments/assets/c3241b1e-7257-4918-aac5-748a1b4c6e16" width="300" autoplay loop muted playsinline></video>
+
 ## Features
 
 - **Local-first**: All events persist locally via WatermelonDB and render immediately with optimistic UI updates. No network dependency for core functionality.
@@ -11,16 +13,16 @@
 
 ## Tech Stack
 
-| Category       | Technology                              |
-| -------------- | --------------------------------------- |
-| Framework      | React Native 0.81 + Expo 54 (New Arch) |
-| Language       | TypeScript 5.9                          |
-| Navigation     | Expo Router 6                           |
-| Database       | WatermelonDB 0.28 (JSI SQLite)         |
-| Backend        | Supabase                                |
-| Animations     | Reanimated 4.1                          |
-| Gestures       | React Native Gesture Handler 2.28       |
-| Optimizations  | React Compiler                          |
+| Category      | Technology                             |
+| ------------- | -------------------------------------- |
+| Framework     | React Native 0.81 + Expo 54 (New Arch) |
+| Language      | TypeScript 5.9                         |
+| Navigation    | Expo Router 6                          |
+| Database      | WatermelonDB 0.28 (JSI SQLite)         |
+| Backend       | Supabase                               |
+| Animations    | Reanimated 4.1                         |
+| Gestures      | React Native Gesture Handler 2.28      |
+| Optimizations | React Compiler                         |
 
 ## Architecture
 
