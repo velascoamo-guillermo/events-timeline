@@ -2,7 +2,7 @@
 
 > Offline-first event timeline app built with React Native and Expo. Tracks domain, sync, and system events with automatic background synchronization to Supabase.
 
-<video src="https://github.com/user-attachments/assets/c3241b1e-7257-4918-aac5-748a1b4c6e16" width="300" autoplay loop muted playsinline></video>
+<video src="https://github.com/user-attachments/assets/9a227bf4-4883-44a1-ad96-9e9168c5bbc7" width="300" autoplay loop muted playsinline></video>
 
 ## Features
 
